@@ -1,6 +1,6 @@
 {:site-title           "Wrangled Ramblings"
  :author               "Wesley Matson"
- :description          "A blog of my non-development ramblings, mostly GURPS-related, including my custom settings."
+ :description          "A blog of my ramblings, mostly GURPS-related, including my custom settings."
  :site-url             "http://wmatson.github.io/wrangled-ramblings"
  :post-root            "posts"
  :page-root            "pages"
