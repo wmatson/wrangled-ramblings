@@ -1,28 +1,28 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <rss version='2.0' xmlns:atom='http://www.w3.org/2005/Atom'>
 <channel>
-<atom:link href='http://wmatson.github.io/wrangled-ramblings' rel='self' type='application/rss+xml'/>
+<atom:link href='https://wmatson.github.io/wrangled-ramblings' rel='self' type='application/rss+xml'/>
 <title>
 Wrangled Ramblings
 </title>
 <link>
-http://wmatson.github.io/wrangled-ramblings
+https://wmatson.github.io/wrangled-ramblings
 </link>
 <description>
 A blog of my ramblings, mostly GURPS-related, including my custom settings.
 </description>
 <lastBuildDate>
-Wed, 23 May 2018 22:02:50 -0600
+Wed, 23 May 2018 22:18:59 -0600
 </lastBuildDate>
 <generator>
 clj-rss
 </generator>
 <item>
 <guid>
-http://wmatson.github.io/wrangled-ramblings/wrangled-ramblings/posts-output/my-first-cryogen-blog/
+https://wmatson.github.io/wrangled-ramblings/wrangled-ramblings/posts-output/my-first-cryogen-blog/
 </guid>
 <link>
-http://wmatson.github.io/wrangled-ramblings/wrangled-ramblings/posts-output/my-first-cryogen-blog/
+https://wmatson.github.io/wrangled-ramblings/wrangled-ramblings/posts-output/my-first-cryogen-blog/
 </link>
 <title>
 My First Cryogen Blog
