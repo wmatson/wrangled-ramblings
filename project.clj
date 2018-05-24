@@ -8,7 +8,10 @@
                            [compojure "1.6.0"]
                            [ring-server "0.5.0"]
                            [cryogen-markdown "0.1.7"]
-                           [cryogen-core "0.1.61"]]
+                           [cryogen-core "0.1.61"]
+                           ;; user function dependencies
+                           [ring/ring-jetty-adapter "1.6.3"]
+                           [clj-time "0.14.4"]]
             :plugins [[lein-ring "0.9.7"]]
             :main cryogen.core
             :ring {:init cryogen.server/init

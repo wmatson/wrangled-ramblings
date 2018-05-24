@@ -3,6 +3,6 @@
  :page-index 0
  :navbar? true}
 
-## Write something about something
+## Coming Soon
 
-wow wow wow
+See [the first post](/posts-output/my-first-cryogen-blog) for some minimal details.
