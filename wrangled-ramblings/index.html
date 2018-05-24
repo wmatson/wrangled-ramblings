@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Wrangled Ramblings</title>
+    <link rel="canonical" href="http://wmatson.github.io/wrangled-ramblings/wrangled-ramblings/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="//fonts.googleapis.com/css?family=Alegreya:400italic,700italic,400,700" rel="stylesheet"
+          type="text/css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/atom-one-dark.min.css">
+    <link href="css/screen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/wrangled-ramblings/">Wrangled Ramblings</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li  class="active" ><a href="/wrangled-ramblings/">Home</a></li>
+                <li
+                ><a href="/wrangled-ramblings/archives/">Archives</a></li>
+                
+                <li
+                >
+                <a href="/wrangled-ramblings/pages-output/about/">About</a>
+                </li>
+                
+                <li
+                >
+                <a href="/wrangled-ramblings/pages-output/about/">About</a>
+                </li>
+                
+                <li><a href="/wrangled-ramblings/feed.xml">RSS</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        More <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li class="dropdown-header">Links</li>
+                        <li><a href="http://cryogenweb.org/docs/home.html">Cryogen Docs</a></li>
+                        
+
+                        
+                        <li class="divider"></li>
+                        <li class="dropdown-header">Recent Posts</li>
+                        
+                        <li><a href="/wrangled-ramblings/posts-output/my-first-cryogen-blog/">My First Cryogen Blog</a></li>
+                        
+                        <li><a href="/wrangled-ramblings/posts-output/my-first-cryogen-blog/">My First Cryogen Blog</a></li>
+                        
+                        
+
+                        
+                        <li class="divider"></li>
+                        <li class="dropdown-header">Tags</li>
+                        
+                        <li><a href="/wrangled-ramblings/tags-output/cryogen/">cryogen</a></li>
+                        
+                        <li><a href="/wrangled-ramblings/tags-output/dev/">dev</a></li>
+                        
+                        
+                    </ul>
+                </li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div><!--/.container-fluid -->
+</nav>
+
+
+<div class="container">
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="content">
+                
+<div id="post">
+    <div class="post-header">
+    <div id="post-meta" class="row">
+        <div class="col-lg-6">May 23, 2018</div>
+        
+    </div>
+    <h2>My First Cryogen Blog</h2>
+</div>
+<div>
+    
+    <p>This is my first blog in a long time. </p><p>It will probably not be well-structured, regular-posted, or even coherent at times, but it'll be mine.</p><hr/><p>When I first discovered <a href='http://cryogenweb.org/index.html'>cryogen</a>,  I felt the need to start something creative again. I've tried to start a few blogs here and there, but never really kept to them, largely due to the lack of control I felt with most aspects of the site and with the arcane "deploy" setups I saw. The ties to Clojure introduced me and the principles behind it hooked me. Particularly, the ability to host it on github.io stood out to me.</p><h3 id="some&#95;background&#95;on&#95;me">Some Background On Me</h3><ul><li>Software Engineer of 5 years in industry</li><li>Started programming at the age of 6</li><li>Like many Clojurists, I use emacs</li><li>Avid <a href='https://en.wikipedia.org/wiki/GURPS'>GURPS</a> GM (maybe a player someday)</li><li>Head full of nonsense</li></ul><p><br/></p><h4 id="deviations&#95;from&#95;default&#95;cryogen">Deviations From Default Cryogen</h4><p>I've made only minimal edits to the default available themes at this point, mostly inverting colors and setting the code theme to <a href='https://github.com/jonathanchu/atom-one-dark-theme'>atom-one-dark</a>, the theme I use in emacs. You can find the source code in <a href='https://github.com/wmatson/wrangled-ramblings'>this github repo</a></p><hr/><p>While doing my research in getting markdown to work in  emacs (I'm using <a href='https://jblevins.org/projects/markdown-mode/'>markdown-mode</a> and <a href='https://pandoc.org/'>pandoc</a>) and get started with cyrogen, I stumbled upon <a href='http://blog.bradlucas.com/posts/2017-06-09-blogging-with-cryogen/'>this blog post</a>, which inspired me to automate some of the expected tedium. His <code>new-post</code> emacs function  used a function or two that weren't in <a href='https://github.com/wmatson/emacs-config'>my setup</a>,  so I decided to create one of my own using my current favorite language, Clojure.</p><h2 id="cyrogen&#95;post&#95;creation&#95;function&#95;(in&#95;clojure)">Cyrogen Post Creation Function (in Clojure)</h2><p>Many clojure projects that I've started include a <code>user.clj</code>.  This file/namespace is only loaded at dev-time and includes various functions that may be useful during development of a project. The default Cryogen template includes no such file, as it's intended to be used by anyone by running a terminal command.</p><p>I decided to instead use my handy-dandy Clojure REPL for running the blog server while creating posts. This was as simple as using <code>ring-jetty-adapter</code> much as outlined <a href='https://github.com/ring-clojure/ring/wiki/Getting-Started'>here</a>. I did a little more fiddling to get things running as they would from the terminal command and ended up with the following in my user.clj</p><h5 id="user.clj">user.clj</h5><pre><code>&#40;ns user
+  &#40;:require &#91;ring.adapter.jetty :as jetty&#93;
+            &#91;cryogen.server :refer &#91;handler init&#93;&#93;
+            &#91;cryogen-core.compiler :refer &#91;read-config&#93;&#93;
+
+&#40;defonce server &#40;atom nil&#41;&#41;
+
+&#40;defn start-server
+  &#40;&#91;&#93; &#40;start-server 3000&#41;&#41;
+  &#40;&#91;port&#93;
+   &#40;when-not @server
+     &#40;init&#41;
+     &#40;reset! server &#40;jetty/run-jetty handler {:port port :join? false}&#41;&#41;&#41;&#41;&#41;
+
+&#40;defn stop-server &#91;&#93;
+  &#40;when @server
+    &#40;.stop @server&#41;
+    &#40;reset! server nil&#41;&#41;&#41;
+</code></pre><p>I'm certain there are smarter ways to do this, but it works for me and allows me to easily start and stop the server on any port.</p><p>Back to the task at hand.</p><p>I decided to respect the <code>config.edn</code> provided by cryogen, for the most part. This should make things a little more usable for the next person to follow, but it also makes the task more interesting.</p><p>Reading through the default installation's <a href='https://github.com/wmatson/wrangled-ramblings/blob/7942ef3fbbe767f624647531c0f99dc95624bea9/src/cryogen/server.clj'>source code</a>, I noticed the function <code>read-config</code> and ran it through my REPL to find the config I was expecting.</p><p>For convenience, I added a couple of libraries to my project.clj:</p><pre><code> :dependencies &#91;&#91;org.clojure/clojure &quot;1.8.0&quot;&#93;
+                &#91;ring/ring-devel &quot;1.6.3&quot;&#93;
+                &#91;compojure &quot;1.6.0&quot;&#93;
+                &#91;ring-server &quot;0.5.0&quot;&#93;
+                &#91;cryogen-markdown &quot;0.1.7&quot;&#93;
+                &#91;cryogen-core &quot;0.1.61&quot;&#93;
+                ;; user function dependencies
+                &#91;ring/ring-jetty-adapter &quot;1.6.3&quot;&#93;
+                &#91;clj-time &quot;0.14.4&quot;&#93;&#93;
+</code></pre><p>I know these should be in a <code>:dev</code> profile, as should the loading of user.clj (rather than putting it in the <code>src/</code> folder), but I was lazy at the time.</p><p>So, for some forewarning to any Clojurists reading this,  my personal style is full of newlines, often in places that I don't see commonly in other people's code. This of course, increases my line count significantly, but I find it makes things more readable and maintainable, personally. It also gives me the ability to use some fun tricks with <a href='https://shaunlebron.github.io/parinfer/'>parinfer</a> that I may explain in some other post.</p><p>Anyway, this is getting long, so here's the code. Maybe I'll do a more thorough breakdown of it another time:</p><pre><code>&#40;ns user
+  &#40;:require &#91;ring.adapter.jetty :as jetty&#93;
+            &#91;cryogen.server :refer &#91;handler init&#93;&#93;
+            &#91;clojure.java.io :as io&#93;
+            &#91;clj-time.core :as time&#93;
+            &#91;clojure.string :as str&#93;
+            &#91;clojure.pprint :refer &#91;pprint&#93;&#93;
+            &#91;cryogen-core.compiler :refer &#91;read-config&#93;&#93;
+            &#91;clj-time.format :as tformat&#93;&#41;&#41;
+
+;;Omitting the server stuff for brevity/lack of duplication
+
+&#40;def base-opts {:layout :post
+                :tags &#91;&quot;&quot;&#93;
+                :toc false}&#41;
+
+&#40;def base-text
+  &quot;###Header
+Some Text&quot;&#41;
+
+&#40;def base-dir &quot;resources/templates/md/&quot;&#41;
+
+&#40;defn- today-str &#91;config&#93;
+  &#40;-&gt; config
+      :post-date-format
+      tformat/formatter
+      &#40;tformat/unparse-local-date &#40;time/today&#41;&#41;&#41;&#41;
+
+&#40;defn new-post-template &#91;config title&#93;
+  &#40;let &#91;opts &#40;assoc base-opts
+                    :title title
+                    :date &#40;today-str config&#41;&#41;
+        pp-opts &#40;with-out-str &#40;pprint opts&#41;&#41;&#93;
+    &#40;str pp-opts &quot;\n\n&quot; base-text&#41;&#41;&#41;
+
+&#40;defn title-&gt;filename &#91;title&#93;
+  &#40;-&gt; title
+      str/lower-case
+      &#40;str/replace #&quot; +&quot; &quot;-&quot;&#41;
+      &#40;str &quot;.md&quot;&#41;&#41;&#41;
+
+&#40;defn new-post! &#91;title&#93;
+  &#40;let &#91;config &#40;read-config&#41;
+        template &#40;new-post-template config title&#41;
+        out-location &#40;str base-dir &#40;:post-root config&#41; &quot;/&quot; &#40;title-&gt;filename title&#41;&#41;&#93;
+    &#40;spit &#40;io/file out-location&#41; template&#41;&#41;&#41;
+
+;; &#40;new-post! &quot;My First Cryogen Blog&quot;&#41;
+</code></pre><p>This has plenty of room for improvement and I encourage anyone to contribute. By far, the biggest drawback I have using this method as opposed to the one posted in <a href='http://blog.bradlucas.com/posts/2017-06-09-blogging-with-cryogen/'>the inspiration for it</a> is that I still have to open a new buffer to begin editing.</p>
+</div>
+
+<div id="post-tags">
+    <b>Tags: </b>
+    
+    <a href="/wrangled-ramblings/tags-output/cryogen/">cryogen</a>
+    
+    <a href="/wrangled-ramblings/tags-output/dev/">dev</a>
+    
+</div>
+
+
+    
+
+    <div id="prev-next">
+        
+        
+        <a class="right" href="/wrangled-ramblings/posts-output/my-first-cryogen-blog/">My First Cryogen Blog &raquo;</a>
+        
+    </div>
+</div>
+
+            </div>
+        </div>
+    </div>
+    <footer>Copyright &copy; 2018 Wesley Matson
+        <p style="text-align: center;">Powered by <a href="http://cryogenweb.org">Cryogen</a></p></footer>
+</div>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="js/highlight.pack.js" type="text/javascript"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+</body>
+</html>
