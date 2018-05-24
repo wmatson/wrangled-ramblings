@@ -12,103 +12,11 @@ http://wmatson.github.io/wrangled-ramblings
 A blog of my ramblings, mostly GURPS-related, including my custom settings.
 </description>
 <lastBuildDate>
-Wed, 23 May 2018 19:09:40 -0600
+Wed, 23 May 2018 21:10:18 -0600
 </lastBuildDate>
 <generator>
 clj-rss
 </generator>
-<item>
-<guid>
-http://wmatson.github.io/wrangled-ramblings/wrangled-ramblings/posts-output/my-first-cryogen-blog/
-</guid>
-<link>
-http://wmatson.github.io/wrangled-ramblings/wrangled-ramblings/posts-output/my-first-cryogen-blog/
-</link>
-<title>
-My First Cryogen Blog
-</title>
-<description>
-&lt;p&gt;This is my first blog in a long time. &lt;/p&gt;&lt;p&gt;It will probably not be well-structured, regular-posted, or even coherent at times, but it'll be mine.&lt;/p&gt;&lt;hr/&gt;&lt;p&gt;When I first discovered &lt;a href='http://cryogenweb.org/index.html'&gt;cryogen&lt;/a&gt;,  I felt the need to start something creative again. I've tried to start a few blogs here and there, but never really kept to them, largely due to the lack of control I felt with most aspects of the site and with the arcane &quot;deploy&quot; setups I saw. The ties to Clojure introduced me and the principles behind it hooked me. Particularly, the ability to host it on github.io stood out to me.&lt;/p&gt;&lt;h3 id=&quot;some&amp;#95;background&amp;#95;on&amp;#95;me&quot;&gt;Some Background On Me&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;Software Engineer of 5 years in industry&lt;/li&gt;&lt;li&gt;Started programming at the age of 6&lt;/li&gt;&lt;li&gt;Like many Clojurists, I use emacs&lt;/li&gt;&lt;li&gt;Avid &lt;a href='https://en.wikipedia.org/wiki/GURPS'&gt;GURPS&lt;/a&gt; GM (maybe a player someday)&lt;/li&gt;&lt;li&gt;Head full of nonsense&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;h4 id=&quot;deviations&amp;#95;from&amp;#95;default&amp;#95;cryogen&quot;&gt;Deviations From Default Cryogen&lt;/h4&gt;&lt;p&gt;I've made only minimal edits to the default available themes at this point, mostly inverting colors and setting the code theme to &lt;a href='https://github.com/jonathanchu/atom-one-dark-theme'&gt;atom-one-dark&lt;/a&gt;, the theme I use in emacs. You can find the source code in &lt;a href='https://github.com/wmatson/wrangled-ramblings'&gt;this github repo&lt;/a&gt;&lt;/p&gt;&lt;hr/&gt;&lt;p&gt;While doing my research in getting markdown to work in  emacs (I'm using &lt;a href='https://jblevins.org/projects/markdown-mode/'&gt;markdown-mode&lt;/a&gt; and &lt;a href='https://pandoc.org/'&gt;pandoc&lt;/a&gt;) and get started with cyrogen, I stumbled upon &lt;a href='http://blog.bradlucas.com/posts/2017-06-09-blogging-with-cryogen/'&gt;this blog post&lt;/a&gt;, which inspired me to automate some of the expected tedium. His &lt;code&gt;new-post&lt;/code&gt; emacs function  used a function or two that weren't in &lt;a href='https://github.com/wmatson/emacs-config'&gt;my setup&lt;/a&gt;,  so I decided to create one of my own using my current favorite language, Clojure.&lt;/p&gt;&lt;h2 id=&quot;cyrogen&amp;#95;post&amp;#95;creation&amp;#95;function&amp;#95;(in&amp;#95;clojure)&quot;&gt;Cyrogen Post Creation Function (in Clojure)&lt;/h2&gt;&lt;p&gt;Many clojure projects that I've started include a &lt;code&gt;user.clj&lt;/code&gt;.  This file/namespace is only loaded at dev-time and includes various functions that may be useful during development of a project. The default Cryogen template includes no such file, as it's intended to be used by anyone by running a terminal command.&lt;/p&gt;&lt;p&gt;I decided to instead use my handy-dandy Clojure REPL for running the blog server while creating posts. This was as simple as using &lt;code&gt;ring-jetty-adapter&lt;/code&gt; much as outlined &lt;a href='https://github.com/ring-clojure/ring/wiki/Getting-Started'&gt;here&lt;/a&gt;. I did a little more fiddling to get things running as they would from the terminal command and ended up with the following in my user.clj&lt;/p&gt;&lt;h5 id=&quot;user.clj&quot;&gt;user.clj&lt;/h5&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;ns user
-  &amp;#40;:require &amp;#91;ring.adapter.jetty :as jetty&amp;#93;
-            &amp;#91;cryogen.server :refer &amp;#91;handler init&amp;#93;&amp;#93;
-            &amp;#91;cryogen-core.compiler :refer &amp;#91;read-config&amp;#93;&amp;#93;
-
-&amp;#40;defonce server &amp;#40;atom nil&amp;#41;&amp;#41;
-
-&amp;#40;defn start-server
-  &amp;#40;&amp;#91;&amp;#93; &amp;#40;start-server 3000&amp;#41;&amp;#41;
-  &amp;#40;&amp;#91;port&amp;#93;
-   &amp;#40;when-not @server
-     &amp;#40;init&amp;#41;
-     &amp;#40;reset! server &amp;#40;jetty/run-jetty handler {:port port :join? false}&amp;#41;&amp;#41;&amp;#41;&amp;#41;&amp;#41;
-
-&amp;#40;defn stop-server &amp;#91;&amp;#93;
-  &amp;#40;when @server
-    &amp;#40;.stop @server&amp;#41;
-    &amp;#40;reset! server nil&amp;#41;&amp;#41;&amp;#41;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;I'm certain there are smarter ways to do this, but it works for me and allows me to easily start and stop the server on any port.&lt;/p&gt;&lt;p&gt;Back to the task at hand.&lt;/p&gt;&lt;p&gt;I decided to respect the &lt;code&gt;config.edn&lt;/code&gt; provided by cryogen, for the most part. This should make things a little more usable for the next person to follow, but it also makes the task more interesting.&lt;/p&gt;&lt;p&gt;Reading through the default installation's &lt;a href='https://github.com/wmatson/wrangled-ramblings/blob/7942ef3fbbe767f624647531c0f99dc95624bea9/src/cryogen/server.clj'&gt;source code&lt;/a&gt;, I noticed the function &lt;code&gt;read-config&lt;/code&gt; and ran it through my REPL to find the config I was expecting.&lt;/p&gt;&lt;p&gt;For convenience, I added a couple of libraries to my project.clj:&lt;/p&gt;&lt;pre&gt;&lt;code&gt; :dependencies &amp;#91;&amp;#91;org.clojure/clojure &amp;quot;1.8.0&amp;quot;&amp;#93;
-                &amp;#91;ring/ring-devel &amp;quot;1.6.3&amp;quot;&amp;#93;
-                &amp;#91;compojure &amp;quot;1.6.0&amp;quot;&amp;#93;
-                &amp;#91;ring-server &amp;quot;0.5.0&amp;quot;&amp;#93;
-                &amp;#91;cryogen-markdown &amp;quot;0.1.7&amp;quot;&amp;#93;
-                &amp;#91;cryogen-core &amp;quot;0.1.61&amp;quot;&amp;#93;
-                ;; user function dependencies
-                &amp;#91;ring/ring-jetty-adapter &amp;quot;1.6.3&amp;quot;&amp;#93;
-                &amp;#91;clj-time &amp;quot;0.14.4&amp;quot;&amp;#93;&amp;#93;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;I know these should be in a &lt;code&gt;:dev&lt;/code&gt; profile, as should the loading of user.clj (rather than putting it in the &lt;code&gt;src/&lt;/code&gt; folder), but I was lazy at the time.&lt;/p&gt;&lt;p&gt;So, for some forewarning to any Clojurists reading this,  my personal style is full of newlines, often in places that I don't see commonly in other people's code. This of course, increases my line count significantly, but I find it makes things more readable and maintainable, personally. It also gives me the ability to use some fun tricks with &lt;a href='https://shaunlebron.github.io/parinfer/'&gt;parinfer&lt;/a&gt; that I may explain in some other post.&lt;/p&gt;&lt;p&gt;Anyway, this is getting long, so here's the code. Maybe I'll do a more thorough breakdown of it another time:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;ns user
-  &amp;#40;:require &amp;#91;ring.adapter.jetty :as jetty&amp;#93;
-            &amp;#91;cryogen.server :refer &amp;#91;handler init&amp;#93;&amp;#93;
-            &amp;#91;clojure.java.io :as io&amp;#93;
-            &amp;#91;clj-time.core :as time&amp;#93;
-            &amp;#91;clojure.string :as str&amp;#93;
-            &amp;#91;clojure.pprint :refer &amp;#91;pprint&amp;#93;&amp;#93;
-            &amp;#91;cryogen-core.compiler :refer &amp;#91;read-config&amp;#93;&amp;#93;
-            &amp;#91;clj-time.format :as tformat&amp;#93;&amp;#41;&amp;#41;
-
-;;Omitting the server stuff for brevity/lack of duplication
-
-&amp;#40;def base-opts {:layout :post
-                :tags &amp;#91;&amp;quot;&amp;quot;&amp;#93;
-                :toc false}&amp;#41;
-
-&amp;#40;def base-text
-  &amp;quot;###Header
-Some Text&amp;quot;&amp;#41;
-
-&amp;#40;def base-dir &amp;quot;resources/templates/md/&amp;quot;&amp;#41;
-
-&amp;#40;defn- today-str &amp;#91;config&amp;#93;
-  &amp;#40;-&amp;gt; config
-      :post-date-format
-      tformat/formatter
-      &amp;#40;tformat/unparse-local-date &amp;#40;time/today&amp;#41;&amp;#41;&amp;#41;&amp;#41;
-
-&amp;#40;defn new-post-template &amp;#91;config title&amp;#93;
-  &amp;#40;let &amp;#91;opts &amp;#40;assoc base-opts
-                    :title title
-                    :date &amp;#40;today-str config&amp;#41;&amp;#41;
-        pp-opts &amp;#40;with-out-str &amp;#40;pprint opts&amp;#41;&amp;#41;&amp;#93;
-    &amp;#40;str pp-opts &amp;quot;\n\n&amp;quot; base-text&amp;#41;&amp;#41;&amp;#41;
-
-&amp;#40;defn title-&amp;gt;filename &amp;#91;title&amp;#93;
-  &amp;#40;-&amp;gt; title
-      str/lower-case
-      &amp;#40;str/replace #&amp;quot; +&amp;quot; &amp;quot;-&amp;quot;&amp;#41;
-      &amp;#40;str &amp;quot;.md&amp;quot;&amp;#41;&amp;#41;&amp;#41;
-
-&amp;#40;defn new-post! &amp;#91;title&amp;#93;
-  &amp;#40;let &amp;#91;config &amp;#40;read-config&amp;#41;
-        template &amp;#40;new-post-template config title&amp;#41;
-        out-location &amp;#40;str base-dir &amp;#40;:post-root config&amp;#41; &amp;quot;/&amp;quot; &amp;#40;title-&amp;gt;filename title&amp;#41;&amp;#41;&amp;#93;
-    &amp;#40;spit &amp;#40;io/file out-location&amp;#41; template&amp;#41;&amp;#41;&amp;#41;
-
-;; &amp;#40;new-post! &amp;quot;My First Cryogen Blog&amp;quot;&amp;#41;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This has plenty of room for improvement and I encourage anyone to contribute. By far, the biggest drawback I have using this method as opposed to the one posted in &lt;a href='http://blog.bradlucas.com/posts/2017-06-09-blogging-with-cryogen/'&gt;the inspiration for it&lt;/a&gt; is that I still have to open a new buffer to begin editing.&lt;/p&gt;
-</description>
-<pubDate>
-Wed, 23 May 2018 00:00:00 -0600
-</pubDate>
-</item>
 <item>
 <guid>
 http://wmatson.github.io/wrangled-ramblings/wrangled-ramblings/posts-output/my-first-cryogen-blog/
