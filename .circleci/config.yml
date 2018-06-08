@@ -34,13 +34,11 @@ jobs:
             - ~/.m2
           key: v1-dependencies-{{ checksum "project.clj" }}
 
-      - run:
-        name: Build Project
-        command: lein run
+      - run: lein run
 
       - deploy:
-        name: Deploy
-        command: |
+          name: Deploy
+          command: |
             if [ $CIRCLE_BRANCH == $SOURCE_BRANCH ]; then
               git config --global user.email $GH_EMAIL
               git config --global user.name $GH_NAME
