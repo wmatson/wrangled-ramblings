@@ -12,11 +12,110 @@ https://wmatson.github.io
 A blog of my ramblings, mostly GURPS-related, including my custom settings.
 </description>
 <lastBuildDate>
-Wed, 23 May 2018 22:27:10 -0600
+Fri, 08 Jun 2018 14:00:14 +0000
 </lastBuildDate>
 <generator>
 clj-rss
 </generator>
+<item>
+<guid>
+https://wmatson.github.io/wrangled-ramblings/posts-output/automated-cryogen-gh-pages-deployments/
+</guid>
+<link>
+https://wmatson.github.io/wrangled-ramblings/posts-output/automated-cryogen-gh-pages-deployments/
+</link>
+<title>
+Automated Cryogen Gh Pages Deployments
+</title>
+<description>
+&lt;p&gt;While I was fiddling with getting disqus working, I found that the deployment process to github pages was rather tedious. So I decided to automate it.&lt;/p&gt;&lt;p&gt;A few googles later, I decided to use &lt;a href='https://circleci.com/'&gt;CircleCI&lt;/a&gt; to manage the builds and automatically deploy. Several blog posts on how to do this using CircleCI 1.0 existed already, but when I went to follow one, I quickly realized that 1.0 was deprecated and on its way out of support.&lt;/p&gt;&lt;p&gt;Luckily, &lt;a href='https://blog.frederikring.com/articles/deploying-github-pages-circle-ci/'&gt;someone already did the work&lt;/a&gt; to figure out the process. Unfortunately, their method had a couple issues that I'll explain later. Over the course of experimentation, I found two other resources that proved important: The CircleCI documentation about checkout keys (found &lt;code&gt;https://circleci.com/gh/&amp;lt;your-username&amp;gt;/&amp;lt;your-project&amp;gt;/edit#checkout&lt;/code&gt;, at the time of this writing,  I couldn't find a good link that wasn't project-specific), and &lt;a href='https://github.com/DevProgress/onboarding/wiki/Using-Circle-CI-with-Github-Pages-for-Continuous-Delivery'&gt;the github documentation&lt;/a&gt; on using CircleCI (specifically &lt;code&gt;Creating a machine user&lt;/code&gt; towards the bottom third of the page).&lt;/p&gt;&lt;hr/&gt;&lt;p&gt;While fiddling with the process, I made sure to set my deploy target to a branch other than &lt;code&gt;gh-pages&lt;/code&gt; (I used &lt;code&gt;gh-pages-test&lt;/code&gt; which bares no significance to github) so as not to disturb the currently-working blog site, I'd recommend you do the same.&lt;/p&gt;&lt;hr/&gt;&lt;h2 id=&quot;some&amp;#95;caveats&quot;&gt;Some Caveats&lt;/h2&gt;&lt;p&gt;The &lt;a href='https://blog.frederikring.com/articles/deploying-github-pages-circle-ci/'&gt;blog I followed along&lt;/a&gt; had a couple issues.&lt;/p&gt;&lt;h4 id=&quot;node&amp;#95;instead&amp;#95;of&amp;#95;clojure&quot;&gt;Node instead of Clojure&lt;/h4&gt;&lt;p&gt;&lt;a href='http://cryogenweb.org/'&gt;Cryogen&lt;/a&gt; uses Clojure (specifically &lt;a href='https://leiningen.org/'&gt;Leiningen&lt;/a&gt; to build the blog site. As a result, I needed to merge the config.yml in &lt;a href='https://blog.frederikring.com/articles/deploying-github-pages-circle-ci/'&gt;the blog&lt;/a&gt; with &lt;a href='https://circleci.com/docs/2.0/language-clojure/#sample-configuration'&gt;CircleCI's Clojure example&lt;/a&gt;  (I used the one generated when initially setting up a project, which I couldn't quickly find a link to it's the same before &lt;code&gt;run: lein do ...&lt;/code&gt;).&lt;/p&gt;&lt;p&gt;Additionally, the deploy process ran &lt;code&gt;npm run build&lt;/code&gt; which won't work with a Clojure project/CircleCI image.&lt;/p&gt;&lt;pre&gt;&lt;code&gt;...
+
+git checkout $TARGET&amp;#95;BRANCH || git checkout --orphan $TARGET&amp;#95;BRANCH
+git rm -rf .
+cd ..
+
+npm run build
+
+cp -a build/. out/.
+
+mkdir -p out/.circleci &amp;amp;&amp;amp; cp -a .circleci/. out/.circleci/.
+cd out
+
+...
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;I removed the &lt;code&gt;npm run build&lt;/code&gt; line entirely, opting to build before the deploy process. Instead, I opted to build using &lt;code&gt;lein run&lt;/code&gt; (This runs the project's main method, Cryogen projects' main builds the blog). This replaced &lt;code&gt;lein do test, uberjar&lt;/code&gt; in the configuration.&lt;/p&gt;&lt;p&gt;You can find my final/current working config &lt;a href='https://github.com/wmatson/wrangled-ramblings/blob/master/.circleci/config.yml'&gt;here&lt;/a&gt;.&lt;/p&gt;&lt;h4 id=&quot;environment&amp;#95;misconfiguration&quot;&gt;Environment Misconfiguration&lt;/h4&gt;&lt;p&gt;First, in their &lt;code&gt;config.yml&lt;/code&gt; snippet, there was some configuration in the &lt;code&gt;environment&lt;/code&gt; tag that I had to change for reasons beyond me.&lt;/p&gt;&lt;pre&gt;&lt;code&gt;    environment:
+      - SOURCE&amp;#95;BRANCH: master
+      - TARGET&amp;#95;BRANCH: gh-pages
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;should be&lt;/p&gt;&lt;pre&gt;&lt;code&gt;    environment:
+      SOURCE&amp;#95;BRANCH: master
+      TARGET&amp;#95;BRANCH: gh-pages
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;notice the now-missing hyphens.&lt;/p&gt;&lt;hr/&gt;&lt;p&gt;Overall, this was an interesting experience, I had enough fun/focus that I lost track of time and went to bed hungry. Here's my final CircleCI &lt;code&gt;config.yml&lt;/code&gt; at the time of this writing:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;version: 2
+jobs:
+  build:
+    branches:
+      ignore:
+        - gh-pages
+    docker:
+      # specify the version you desire here
+      - image: circleci/clojure:lein-2.7.1
+
+    working&amp;#95;directory: &amp;#126;/repo
+
+    environment:
+      LEIN&amp;#95;ROOT: &amp;quot;true&amp;quot;
+      # Customize the JVM maximum heap limit
+      JVM&amp;#95;OPTS: -Xmx3200m
+      SOURCE&amp;#95;BRANCH: master
+      TARGET&amp;#95;BRANCH: gh-pages
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore&amp;#95;cache:
+          keys:
+          - v1-dependencies-{{ checksum &amp;quot;project.clj&amp;quot; }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run: lein deps
+
+      - save&amp;#95;cache:
+          paths:
+            - &amp;#126;/.m2
+          key: v1-dependencies-{{ checksum &amp;quot;project.clj&amp;quot; }}
+
+      - run: lein run
+
+      - deploy:
+          name: Deploy
+          command: |
+            if &amp;#91; $CIRCLE&amp;#95;BRANCH == $SOURCE&amp;#95;BRANCH &amp;#93;; then
+              git config --global user.email $GH&amp;#95;EMAIL
+              git config --global user.name $GH&amp;#95;NAME
+
+              git clone $CIRCLE&amp;#95;REPOSITORY&amp;#95;URL out
+
+              cd out
+              git checkout $TARGET&amp;#95;BRANCH || git checkout --orphan $TARGET&amp;#95;BRANCH
+              git rm -rf .
+              cd ..
+
+              cp -a resources/public/wrangled-ramblings/. out/.
+
+              mkdir -p out/.circleci &amp;amp;&amp;amp; cp -a .circleci/. out/.circleci/.
+              cd out
+
+              git add -A
+              git commit -m &amp;quot;Automated deployment to GitHub Pages: ${CIRCLE&amp;#95;SHA1}&amp;quot; --allow-empty
+
+              git push origin $TARGET&amp;#95;BRANCH
+            fi
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+<pubDate>
+Fri, 08 Jun 2018 00:00:00 +0000
+</pubDate>
+</item>
 <item>
 <guid>
 https://wmatson.github.io/wrangled-ramblings/posts-output/my-first-cryogen-blog/
@@ -106,7 +205,7 @@ Some Text&amp;quot;&amp;#41;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This has plenty of room for improvement and I encourage anyone to contribute. By far, the biggest drawback I have using this method as opposed to the one posted in &lt;a href='http://blog.bradlucas.com/posts/2017-06-09-blogging-with-cryogen/'&gt;the inspiration for it&lt;/a&gt; is that I still have to open a new buffer to begin editing.&lt;/p&gt;
 </description>
 <pubDate>
-Wed, 23 May 2018 00:00:00 -0600
+Wed, 23 May 2018 00:00:00 +0000
 </pubDate>
 </item>
 </channel>
