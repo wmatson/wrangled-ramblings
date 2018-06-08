@@ -50,8 +50,6 @@ jobs:
               git rm -rf .
               cd ..
 
-              npm run build
-
               cp -a resources/public/wrangled-ramblings/. out/.
 
               mkdir -p out/.circleci && cp -a .circleci/. out/.circleci/.
