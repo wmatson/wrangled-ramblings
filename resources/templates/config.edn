@@ -1,7 +1,7 @@
 {:site-title           "Wrangled Ramblings"
  :author               "Wesley Matson"
  :description          "A blog of my ramblings, mostly GURPS-related, including my custom settings."
- :site-url             "http://wmatson.github.io/wrangled-ramblings"
+ :site-url             "https://wmatson.github.io"
  :post-root            "posts"
  :page-root            "pages"
  :post-root-uri        "posts-output"
@@ -20,8 +20,8 @@
  :theme                "blue_centered_inverted"
  :resources            ["img"]
  :keep-files           [".git"]
- :disqus?              false
- :disqus-shortname     ""
+ :disqus?              true
+ :disqus-shortname     "wrangled-ramblings"
  :ignored-files        [#"\.#.*" #".*\.swp$"]
  :posts-per-page       5
  :blocks-per-preview   2
