@@ -1,5 +1,5 @@
 {:layout :post,
- :tags [""],
+ :tags ["dev" "cyrogen"],
  :toc false,
  :title "Automated Cryogen Gh Pages Deployments",
  :date "2018-06-08"}
