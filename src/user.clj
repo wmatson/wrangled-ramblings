@@ -55,6 +55,7 @@ Some Text")
   (let [config (read-config)
         template (new-post-template config title)
         out-location (str base-dir (:post-root config) "/" (title->filename title))]
-    (spit (io/file out-location) template)))
+    (spit (io/file out-location) template)
+    (println out-location)))
 
 ;; (new-post! "My First Cryogen Blog")
