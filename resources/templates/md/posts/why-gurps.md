@@ -51,7 +51,7 @@ Some example disadvantages:
 - Sadism
 - Honesty
 
-Note how disadvantages don't strictly have to *evil* traits. Many of them are traits expected of a *good* person.
+Note how disadvantages don't strictly have to be *evil* traits. Many of them are traits expected of a *good* person.
 Anything that limits your choices, be it kindness, clumsiness, curiosity, or just plain smelling bad, is a disadvantage.
 
 Whenever I create a new character, I start with the disadvantages. 
